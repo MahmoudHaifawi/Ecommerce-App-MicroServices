@@ -1,0 +1,62 @@
+#  /**
+#    * Central configuration file for the Spring Cloud Config Server microservice.
+#    * <p>
+#    * This YAML file defines service registration, property management, and
+#    * distributed tracing settings for the config server, allowing seamless integration in
+#    * a microservices environment. It plays a critical role in externalizing configurations
+#    * for all microservices managed by the config server.
+#    * </p>
+#    * <b>Key Sections:</b>
+#    * <ul>
+#    *   <li>
+#    *     <b>eureka:</b> <br>
+#    *       Registers the config server with Eureka for service discovery.
+#    *       <ul>
+#    *         <li><code>instance.hostname</code>: Hostname used by Eureka registry.</li>
+#    *         <li><code>client.service-url.defaultZone</code>: Eureka registry endpoint.</li>
+#    *       </ul>
+#    *   </li>
+#    *   <li>
+#    *     <b>spring.cloud.config.override-system-properties:</b> <br>
+#    *       Determines precedence between configuration properties and system properties.
+#    *   </li>
+#    *   <li>
+#    *     <b>management.tracing.sampling.probability:</b> <br>
+#    *       Sets the distributed tracing sample rate (1.0 = 100% trace).</li>
+#    *   </li>
+#    * </ul>
+#    * <b>Purpose:</b>
+#    * <ul>
+#    *   <li>Centralizes configuration management for distributed microservices.</li>
+#    *   <li>Facilitates dynamic property updates, environment separation, and service discovery.</li>
+#    *   <li>Enables robust observability and diagnostics through tracing.</li>
+#    * </ul>
+#    * <b>Usage:</b>
+#    * <ul>
+#    *   <li>Used by the config-server at startup.</li>
+#    *   <li>Ensures that all managed microservices can fetch and update their configuration from a central location.</li>
+#    * </ul>
+#    */
+
+
+
+eureka:
+  instance:
+    hostname: localhost           # Sets the hostname for the config server in the Eureka registry
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Location of the Eureka server; for service registration/discovery
+
+name: config-server              # (Optional) Name identifier for this service/application
+
+value: haifawi               # (Optional) Placeholder or custom value, could be used by the service or as metadata
+
+spring:
+  cloud:
+    config:
+      override-system-properties: false   # System properties (from JVM) will NOT be overridden by config server settings
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0            # Enables 100% tracing probability; every request is tracked for diagnostics

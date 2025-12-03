@@ -1,0 +1,27 @@
+server:
+  port: 8888                                  # Sets the port on which the config server will listen for client requests
+
+spring:
+  profiles:
+    active: native                            # Enables the 'native' profile, meaning config files are loaded from local resources (not Git or remote)
+  application:
+    name: config-server                       # Sets the Spring application name to 'config-server', used for identification by clients and in logs
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configurations  # Specifies where to look for config files (inside the application's classpath at /configurations)
+
+
+ #if we are reading frm rep the configuration
+#spring:
+#  profiles:
+#    active: git
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/your-username/your-config-repo.git     # URL of your config repo
+#          username: <username>               # (Optional) If repo is private, add your Git username
+#          password: <password-or-token>      # (Optional) If repo is private, add your Git password or access token
+#          default-label: main                # (Optional) Default branch (can be 'main' or another)

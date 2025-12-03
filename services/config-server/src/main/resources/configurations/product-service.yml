@@ -1,0 +1,43 @@
+#  /**
+#    * Configuration file for the Product microservice, managed via Spring Cloud Config Server.
+#    * <p>
+#    * Declares database connection details, Hibernate and Flyway migration settings, and server properties.
+#    * Enables the service to connect to a PostgreSQL database, validate the entity schema at runtime, and manage
+#    * migrations in a controlled and automated way using Flyway.
+#    * </p>
+#    * <b>Key Sections:</b>
+#    * <ul>
+#    *   <li><b>server.port:</b> Sets the HTTP listening port for the Product microservice.</li>
+#    *   <li><b>spring.datasource:</b> Provides PostgreSQL connection info and credentials.</li>
+#    *   <li><b>spring.jpa:</b> Configures Hibernate behavior for entity/schema management and database type/dialect.</li>
+#    *   <li><b>spring.flyway:</b> Manages database migration settings, including baseline and authentication.</li>
+#    * </ul>
+#    * <b>Usage:</b>
+#    * <ul>
+#    *   <li>Loaded automatically by Spring Boot via the Config Server.</li>
+#    *   <li>Allows seamless deployment and environment management for the Product service.</li>
+#    * </ul>
+#    */
+#
+server:
+  port: 8050                  # Sets the HTTP port on which the product microservice runs
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver    # JDBC driver for connecting to PostgreSQL database
+    url: jdbc:postgresql://localhost:5432/product  # Database connection URL for the 'product' database
+    username: haifawi               # Username to authenticate to the database
+    password: haifawi               # Password for database authentication
+  jpa:
+    hibernate:
+      ddl-auto: validate           # Tells Hibernate to validate the schema against entities at runtime
+    database: postgresql           # Specifies the type of database used for JPA
+    database-platform: org.hibernate.dialect.PostgreSQLDialect # Instructs Hibernate to use SQL dialect optimized for PostgreSQL
+
+  flyway:
+    baseline-on-migrate: true      # Sets Flyway to baseline the schema when starting migrations
+    enabled: true                  # Enables Flyway for automated database migrations
+    baseline-description: init     # Describes the baseline migration ("init" marks the starting point)
+    baseline-version: 0            # Sets initial baseline version for migrations (version 0)
+    user: ${spring.datasource.username}    # Uses datasource username for Flyway authentication
+    password: ${spring.datasource.password} # Uses datasource password for Flyway authentication

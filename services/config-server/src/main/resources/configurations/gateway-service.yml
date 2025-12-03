@@ -1,0 +1,40 @@
+server:
+  port: 8222              # The port your API Gateway runs and listens for HTTP requests (clients connect here)
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true   # Enables dynamic routing to services registered in Eureka (service discovery)
+      routes:             # Defines static route mappings for microservices
+
+        # Route for Customer Service
+        - id: customer-service                # Identifier for this route (for management/logging)
+          uri: lb:http://CUSTOMER-SERVICE     # 'lb:' = load-balanced call via Eureka, to service named CUSTOMER-SERVICE
+          predicates:
+            - Path=/api/v1/customers/**       # Only calls matching this URL path go to Customer Service
+
+        # Route for Order Service
+        - id: order-service
+          uri: lb:http://ORDER-SERVICE        # Points to ORDER-SERVICE via service discovery/load balancer
+          predicates:
+            - Path=/api/v1/orders/**
+
+        # Route for Order Lines (could be a subresource of orders, but points to ORDER-SERVICE backend)
+        - id: order-lines-service
+          uri: lb:http://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/order-lines/**
+
+        # Route for Product Service
+        - id: product-service
+          uri: lb:http://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/products/**
+
+        # Route for Payment Service
+        - id: payment-service
+          uri: lb:http://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/v1/payments/**

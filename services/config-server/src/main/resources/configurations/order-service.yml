@@ -1,0 +1,27 @@
+server:
+  port: 8070                     # The HTTP port the Order microservice will listen on
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver       # JDBC driver for connecting to PostgreSQL
+    url: jdbc:postgresql://localhost:5432/order   # Connection URL for the 'order' database instance
+    username: haifawi                             # Username for authenticating to the database
+    password: haifawi                             # Password for database authentication
+  jpa:
+    hibernate:
+      ddl-auto: create                           # Creates tables from entities at startup (DANGER: drops & recreates!)
+    database: postgresql                         # Specifies the database type for JPA/Hibernate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect  # Use PostgreSQL-specific SQL dialect
+  kafka:
+    bootstrap-servers: localhost:9092            # Address of the Kafka broker/server
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer   # Serializer for Kafka message keys
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer  # Serializer for Kafka message values (JSON)
+      properties:
+        spring.json.type.mapping: orderConfirmation:com.micro.order.kafka.OrderConfirmation  # Use alias for type headers
+
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers   # Base URL for the Customer microservice API
+    payment-url: http://localhost:8222/api/v1/payments     # Base URL for the Payment microservice API
+    product-url: http://localhost:8222/api/v1/products     # Base URL for the Product microservice API

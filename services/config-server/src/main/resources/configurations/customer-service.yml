@@ -1,0 +1,12 @@
+server:
+  port: 8090                              # Sets the HTTP port for the customer microservice
+
+spring:
+  data:
+    mongodb:
+      username: haifawi                    # Username for authenticating to the MongoDB database
+      password: haifawi                  # Password for MongoDB authentication
+      host: localhost                     # Hostname of the MongoDB server (local machine)
+      port: 27017                         # Port number on which MongoDB is running (default: 27017)
+      database: customer                  # Name of the database inside MongoDB to use for customer data
+      authentication-database: admin      # Database used for authentication (MongoDB best practice is 'admin')

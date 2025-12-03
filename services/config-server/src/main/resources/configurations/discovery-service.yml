@@ -1,0 +1,12 @@
+eureka:
+  instance:
+    hostname: localhost                       # Sets the hostname for Eureka server instance (runs locally)
+
+  client:
+    registerWithEureka: false                 # This service should not register itself with Eureka (it's the server, not a client)
+    fetchRegistry: false                      # This service should not fetch the registry from any other Eureka instance
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/  # Main service URL for the Eureka server (used by clients to register/discover)
+
+server:
+  port: 8761                                  # Sets the HTTP port for the Eureka server (default Eureka port is 8761)
